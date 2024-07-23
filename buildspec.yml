@@ -8,8 +8,9 @@ phases:
     commands:
       - echo Build phase...
       - echo Retrieving secret key from Parameter Store...
-      - secret_key=$(aws ssm get-parameter --name /myapp/secret-key --with-decryption --query Parameter.Value --output text)
-      - echo Secret Key is: $secret_key
+      - |
+        secret_key=$(aws ssm get-parameter --name /myapp/secret-key --with-decryption --query Parameter.Value --output text)
+        echo Secret Key is: $secret_key
   post_build:
     commands:
       - echo Post-build phase...
