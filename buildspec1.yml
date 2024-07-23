@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Pre-build phase...
+  build:
+    commands:
+      - echo Build phase...
+      - echo Retrieving secret key from Parameter Store...
+      - |
+        secret_key=$(aws ssm get-parameter --name /password --with-decryption --query Parameter.Value --output text)
+        echo Secret Key is: $secret_key
+  post_build:
+    commands:
+      - echo Post-build phase...
+
+artifacts:
+  files:
+    - '**/*'
