@@ -1,10 +1,20 @@
 version: 0.2
 
-env:
-  parameter-store:
-    SECRET_TOKEN: "Secret_Key"
-
 phases:
+  pre_build:
+    commands:
+      - echo Pre-build phase...
   build:
     commands:
-      - echo $SECRET_TOKEN
+      - echo Build phase...
+      - echo Retrieving secret key from Parameter Store...
+      - |
+        secret_key=$(aws ssm get-parameter --name Secret_Key --with-decryption --query Parameter.Value --output text)
+        echo Secret Key is: $secret_key
+  post_build:
+    commands:
+      - echo Post-build phase...
+
+artifacts:
+  files:
+    - '**/*'
